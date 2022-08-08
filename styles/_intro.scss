@@ -1,0 +1,38 @@
+#titulo{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    font-family: pokemonText;
+}
+
+.logo{
+    height: 200px;
+}
+
+.starters{
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+}
+
+.introPoke{
+    height: 100px;
+}
+
+.introRed{
+    height: 200px;
+}
+
+.playButton{
+    padding-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.playButton button{
+    width: 50%;
+    height: 50px;
+    border: none;
+    font-family: pokemonText;
+}

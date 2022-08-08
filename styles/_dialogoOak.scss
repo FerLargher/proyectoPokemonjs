@@ -1,0 +1,21 @@
+#texto{
+    font-family: pokemonText;
+}
+
+#discurso{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 15em;
+}
+
+#divSprite img {
+    height: 300px;
+}
+
+#divDiscurso{
+    margin-top: 2em;
+    background-color: #fff;
+    padding: 20px;
+    border: 2px solid black;
+}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./estilos/styles.css">
+    <title>Pokemon</title>
+</head>
+<body id="cuerpoHtml">
+    <!--PANTALLA INTRO-->
+    <header id="titulo">
+        <h1><img src="./img/logo.png" alt="logo" class="logo"></h1>
+        <h2>Una version de javascript</h2>
+    </header>
+    <section id="intro">
+        <article class="starters">
+            <img src="./img/bulbasaur.gif" alt="bulbasaur" class="introPoke">
+            <img src="./img/trainerRed.gif" alt="red" class="introRed">
+            <img src="./img/charmander.gif" alt="charmander" class="introPoke">
+            <img src="./img/squirtle.gif" alt="squirtle" class="introPoke"> 
+        </article>
+        <article class="playButton">
+            <button>Jugar</button>
+        </article>
+    </section>
+
+    <!--DISCURSO-->
+    <section id="discurso">
+
+    </section>
+
+    <!--SELECCION POKEMON-->
+    <section id="seleccionPokemon">
+        <h2 id="subtitulo">Elegi a tu pokemon inicial</h2>
+        <div id="pokebolasIniciales">
+            <div id="pokebola">
+                <img src="./img/pokeball.png" alt="pokeball" id="abierta">
+                <img src="./img/pokeballAbierta.png" alt="pokeballAbierta" id="cerrada">
+            </div>
+            <div id="pokebola2">
+                <img src="./img/pokeball.png" alt="pokeball">
+                <img src="./img/pokeballAbierta.png" alt="pokeballAbierta" id="cerrada">
+            </div>
+            <div id="pokebola3">
+                <img src="./img/pokeball.png" alt="pokeball">
+                <img src="./img/pokeballAbierta.png" alt="pokeballAbierta" id="cerrada">
+            </div>
+        </div>
+        <div id="pokemonIniciales">
+            <div id="bulbasaur">
+                <img src="./img/bulbasaur.gif" alt="">
+                <h3>Bulbasaur</h3>
+                <p>Una rara semilla fue plantada en su espalda al nacer. La planta brota y crece con este Pokémon.</p>
+            </div>
+            <div id="charmander">
+                <img src="./img/charmander.gif" alt="">
+                <h3>Charmander</h3>
+                <p>Prefiere los sitios calientes. Dicen que cuando llueve sale vapor de la punta de su cola.</p>
+            </div>
+            <div id="squirtle">
+                <img src="./img/squirtle.gif" alt="">    
+                <h3>Squirtle</h3>
+                <p>Cuando se esconde en el caparazón, dispara agua a una presión increíble.</p>
+            </div>
+        </div>
+        <div id="botones">
+            <button class="botonSi">SI</button>
+            <button class="botonNo">NO</button>
+        </div>
+    </section>
+
+    <script src="./main.js"></script>
+</body>
+</html>
