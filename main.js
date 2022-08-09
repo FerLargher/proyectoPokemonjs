@@ -123,38 +123,47 @@ divPokebola3.addEventListener("mouseleave", () =>{
 
 ////////////////// validar
 seleccionPoke = document.getElementById("seleccionPokemon")
-
+let divPokebolasIniciales = document.getElementById("pokebolasIniciales")
+let divPokemonIniciales = document.getElementById("pokemonIniciales")
 
 let botones = document.getElementById("botones")
 let subtitulo = document.getElementById("subtitulo")
 let botonSi = document.querySelector(".botonSi")
 let botonNo = document.querySelector(".botonNo")
 
+// CREO QUE NO APARECE EL POKEMON PORQUE AL HACER MOUSELEAVE LA DESCRIPCION DEL POKE
+// VUELVE A PONERSE EN NONE, AVERIGUAR FORMA DE SOLUCIONAR
+
+
+
 divPokebola.addEventListener("click", () => {
-    subtitulo.innerText = "Estas seguro?"
     bulbasaurDescripcion.style.display = "initial"
-    divPokebola2.style.display = "none"
-    divPokebola3.style.display = "none"
+    console.log(bulbasaurDescripcion.style.display)
+    subtitulo.innerText = "Estas seguro?"
+    divPokebolasIniciales.style.display = "none"
     botones.style.display = "flex"
     botonNo.addEventListener("click", () => {
-        seleccionPoke.remove()
+        subtitulo.innerText = "Elige a tu pokemon"
+        divPokebolasIniciales.style.display = "flex"
+        botones.style.display = "none"
+    })
+    botonSi.addEventListener("click", () =>{
+        subtitulo.innerText = "Felicidades has elegido a bulbasaur"
+        botones.style.display = "none"
     })
 })
+
 
 divPokebola2.addEventListener("click", () => {
     subtitulo.innerText = "Estas seguro?"
     charmanderDescripcion.style.display = "initial"
-    divPokebola.remove()
-    divPokebola2.remove()
-    divPokebola3.remove()
+    divPokebolasIniciales.style.display = "none"
     botones.style.display = "flex"
 })
 
 divPokebola3.addEventListener("click", () => {
     subtitulo.innerText = "Estas seguro?"
     squirtleDescripcion.style.display = "initial"
-    divPokebola.remove()
-    divPokebola2.remove()
-    divPokebola3.remove()
+    divPokebolasIniciales.style.display = "none"
     botones.style.display = "flex"
 })
