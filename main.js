@@ -1,20 +1,82 @@
+/******         DECLARACION DE VARIABLES         ******/ 
+
+// PANTALLA INICIAL
+
+let cuerpo = document.getElementById("cuerpoHtml")
 const boton = document.querySelector(".playButton button")
 const titulo = document.getElementById("titulo")
 const intro = document.getElementById("intro")
-const seccionDiscurso = document.getElementById("discurso")
-let cuerpo = document.getElementById("cuerpoHtml")
 
+
+// SECCION DISCURSO
+
+let seccionDiscurso = document.getElementById("discurso")
 let divSprite = document.createElement("div")
 let divDiscurso = document.createElement("div")
-divSprite.setAttribute("id", "divSprite")
-divDiscurso.setAttribute("id", "divDiscurso")
 let oakSprite = document.createElement("img")
 let texto = document.createElement("p");
+let formNombre = document.createElement("form")
+let inputNombre = document.createElement("input")
+let submitNombre = document.createElement("input")
+let nombreUser;
 oakSprite.src = "./img/oak.png"
+divSprite.setAttribute("id", "divSprite")
+divDiscurso.setAttribute("id", "divDiscurso")
 texto.setAttribute("id", "texto")
+formNombre.setAttribute("id", "form")
+inputNombre.setAttribute("type", "text")
+inputNombre.setAttribute("id", "input")
+submitNombre.setAttribute("type", "submit")
+submitNombre.setAttribute("value", "enviar")
+
+
+// SECCION SELECCION POKEMON
 
 let seleccionPoke = document.getElementById("seleccionPokemon");
+let pokebolaCerrada = document.getElementById("cerrada");
+let pokebolaAbierta = document.getElementById("abierta");
+let divPokebolasIniciales = document.getElementById("pokebolasIniciales")
+let divPokemonIniciales = document.getElementById("pokemonIniciales")
+let botones = document.getElementById("botones")
+let subtitulo = document.getElementById("subtitulo")
+let botonSi = document.querySelector(".botonSi")
+let botonNo = document.querySelector(".botonNo")
 
+
+// CONSTRUCTOR DE POKEMON
+
+class Pokemon{
+    constructor(nombre, numero, tipo, ataque, hp, rival, hpMax){
+        this.nombre = nombre;
+        this.numero = numero;
+        this.tipo = tipo;
+        this.ataque = ataque;
+        this.hp = hp;
+        this.rival = rival;
+        this.hpMax = hpMax;
+    }
+}
+
+class Objetos{
+    constructor(nombre, cantidad){
+        this.nombre = nombre;
+        this.cantidad = cantidad;
+    }
+}
+
+const bulbasaur = new Pokemon("bulbasaur", 01, "planta", 4, 22, "charmander", 22);
+const charmander = new Pokemon("charmander", 04, "fuego", 6, 18, "squirtle", 18);
+const squirtle = new Pokemon("squirtle", 07, "agua", 8, 16, "bulbasaur", 16);
+const pidgey = new Pokemon("Pidgey", 16, "Volador", 4, 10, "", 10);
+const rattata = new Pokemon("Rattata", 19, "Normal", 4, 10, "", 10);
+let listaPokemon = [bulbasaur, charmander, squirtle, pidgey, rattata]
+let equipoPokemon = []
+
+// BATALLA POKEMON
+
+
+
+/*********** DISCURSO ***********/
 
 boton.onclick = () => {
     titulo.remove()
@@ -25,16 +87,6 @@ boton.onclick = () => {
     divSprite.appendChild(oakSprite)
     divDiscurso.appendChild(texto)
 }
-
-let formNombre = document.createElement("form")
-formNombre.setAttribute("id", "form")
-let inputNombre = document.createElement("input")
-inputNombre.setAttribute("type", "text")
-inputNombre.setAttribute("id", "input")
-let submitNombre = document.createElement("input")
-submitNombre.setAttribute("type", "submit")
-submitNombre.setAttribute("value", "enviar")
-let nombreUser;
 
 texto.addEventListener("click", () => {
     texto.innerHTML = "Antes de seguir con tu aventura me gustaria saber tu nombre"
@@ -60,9 +112,9 @@ texto.addEventListener("click", () => {
     })
 })
 
-/*******        FUNCION ABRIR Y CERRAR POKEBALL         ******/
-let pokebolaCerrada = document.getElementById("cerrada");
-let pokebolaAbierta = document.getElementById("abierta");
+/********************   SELECCION POKEMON   ******************/
+
+//FUNCION ABRIR Y CERRAR POKEBALL
 
 function cerrar(){
     divPokebola.addEventListener("mouseleave", () => {
@@ -78,7 +130,7 @@ function abrir(){
     })
 }
 
-/*******        APARECER BULBASAUR         ******/
+// APARECER BULBASAUR
 let divPokebola = document.getElementById("pokebola")
 let bulbasaurDescripcion = document.getElementById("bulbasaur")
 
@@ -92,7 +144,7 @@ divPokebola.addEventListener("mouseleave", () =>{
     cerrar()
 })
 
-/*******        APARECER CHARMANDER         ******/
+//  APARECER CHARMANDER
 let divPokebola2 = document.getElementById("pokebola2")
 let charmanderDescripcion = document.getElementById("charmander")
 
@@ -106,7 +158,7 @@ divPokebola2.addEventListener("mouseleave", () =>{
     charmanderDescripcion.style.display = "none"
 })
 
-/*******        APARECER SQUIRTLE         ******/
+//  APARECER SQUIRTLE
 let divPokebola3 = document.getElementById("pokebola3")
 let squirtleDescripcion = document.getElementById("squirtle")
 
@@ -120,21 +172,10 @@ divPokebola3.addEventListener("mouseleave", () =>{
     squirtleDescripcion.style.display = "none"
 })
 
-
-////////////////// validar
-seleccionPoke = document.getElementById("seleccionPokemon")
-let divPokebolasIniciales = document.getElementById("pokebolasIniciales")
-let divPokemonIniciales = document.getElementById("pokemonIniciales")
-
-let botones = document.getElementById("botones")
-let subtitulo = document.getElementById("subtitulo")
-let botonSi = document.querySelector(".botonSi")
-let botonNo = document.querySelector(".botonNo")
+// VALIDAR SELECCION POKEMON
 
 // CREO QUE NO APARECE EL POKEMON PORQUE AL HACER MOUSELEAVE LA DESCRIPCION DEL POKE
 // VUELVE A PONERSE EN NONE, AVERIGUAR FORMA DE SOLUCIONAR
-
-
 
 divPokebola.addEventListener("click", () => {
     bulbasaurDescripcion.style.display = "initial"
@@ -153,12 +194,20 @@ divPokebola.addEventListener("click", () => {
     })
 })
 
-
 divPokebola2.addEventListener("click", () => {
     subtitulo.innerText = "Estas seguro?"
     charmanderDescripcion.style.display = "initial"
     divPokebolasIniciales.style.display = "none"
     botones.style.display = "flex"
+    botonNo.addEventListener("click", () => {
+        subtitulo.innerText = "Elige a tu pokemon"
+        divPokebolasIniciales.style.display = "flex"
+        botones.style.display = "none"
+    })
+    botonSi.addEventListener("click", () =>{
+        subtitulo.innerText = "Felicidades has elegido a charmander"
+        botones.style.display = "none"
+    })
 })
 
 divPokebola3.addEventListener("click", () => {
@@ -166,4 +215,17 @@ divPokebola3.addEventListener("click", () => {
     squirtleDescripcion.style.display = "initial"
     divPokebolasIniciales.style.display = "none"
     botones.style.display = "flex"
+    botonNo.addEventListener("click", () => {
+        subtitulo.innerText = "Elige a tu pokemon"
+        divPokebolasIniciales.style.display = "flex"
+        botones.style.display = "none"
+    })
+    botonSi.addEventListener("click", () =>{
+        subtitulo.innerText = "Felicidades has elegido a squirtle"
+        botones.style.display = "none"
+    })
 })
+
+
+/***********    BATALLA POKEMON ***********/
+
