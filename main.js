@@ -74,6 +74,7 @@ let equipoPokemon = []
 
 // BATALLA POKEMON
 
+let divBatallaPokemon = document.getElementById("batallaPokemon")
 
 
 /*********** DISCURSO ***********/
@@ -191,6 +192,13 @@ divPokebola.addEventListener("click", () => {
     botonSi.addEventListener("click", () =>{
         subtitulo.innerText = "Felicidades has elegido a bulbasaur"
         botones.style.display = "none"
+        subtitulo.addEventListener("click", () =>{
+            subtitulo.innerText = "¡Un rival aparecio y te desafia a una batalla!"
+            subtitulo.addEventListener("click", () =>{
+                seleccionPoke.style.display = "none"
+                divBatallaPokemon.style.display = "grid"
+            })
+        })
     })
 })
 
@@ -207,6 +215,13 @@ divPokebola2.addEventListener("click", () => {
     botonSi.addEventListener("click", () =>{
         subtitulo.innerText = "Felicidades has elegido a charmander"
         botones.style.display = "none"
+        subtitulo.addEventListener("click", () =>{
+            subtitulo.innerText = "¡Un rival aparecio y te desafia a una batalla!"
+            subtitulo.addEventListener("click", () =>{
+                seleccionPoke.style.display = "none"
+                divBatallaPokemon.style.display = "grid"
+            })
+        })
     })
 })
 
@@ -223,8 +238,16 @@ divPokebola3.addEventListener("click", () => {
     botonSi.addEventListener("click", () =>{
         subtitulo.innerText = "Felicidades has elegido a squirtle"
         botones.style.display = "none"
+        subtitulo.addEventListener("click", () =>{
+            subtitulo.innerText = "¡Un rival aparecio y te desafia a una batalla!"
+            subtitulo.addEventListener("click", () =>{
+                seleccionPoke.style.display = "none"
+                divBatallaPokemon.style.display = "grid"
+            })
+        })
     })
 })
+
 
 
 /***********    BATALLA POKEMON ***********/

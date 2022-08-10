@@ -241,4 +241,48 @@ body {
 #botones button:hover {
   cursor: pointer;
 }
+
+#batallaPokemon {
+  width: 50%;
+  display: none;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 0.5fr, 1fr 1fr 0.3fr;
+  grid-template-areas: ". ."  "statusEnemigo pokemonRival" "pokemonInicial statusPokemon" "pelea curar";
+  background-image: url("./fondo.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+#pokemonRival {
+  display: flex;
+  justify-content: center;
+}
+
+#pokemonInicial {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+#pelea, #curar {
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3em;
+  background-color: white;
+}
+
+#statusEnemigo {
+  font-size: 2em;
+  padding-left: 1em;
+  display: flex;
+}
+
+#statusPokemon {
+  font-size: 2em;
+  padding-left: 1em;
+  display: flex;
+}
 /*# sourceMappingURL=styles.css.map */
