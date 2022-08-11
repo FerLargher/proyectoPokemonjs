@@ -252,3 +252,42 @@ divPokebola3.addEventListener("click", () => {
 
 /***********    BATALLA POKEMON ***********/
 
+/*
+const batallaPokemon = document.querySelector("#batallaPokemon")
+
+function fetchPokemon(id){
+    fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
+    .then(res => res.json())
+    .then(data => {
+        console.log(data)
+    })
+}
+fetchPokemon(1) // esta me trae a bulbasaur
+
+function fetchPokemons(numero){
+    for (let i = 1; i < numero; i++) {
+        fetchPokemon(i)
+    }
+}   // esta trae un conjunto de pokemon desde el 1 hasta el numero que elija
+// mi idea era traer por ejemplo los primeros 25 y guardarlos en un array para acceder 
+// a sus datos cuando quiera
+
+let equipoPokemon = []
+let equipoRival = []
+let statusEnemigo = document.querySelector("#statusEnemigo")
+let hpRival = document.querySelector("#hpRival")
+let hpTotalRival = document.querySelector("#hpTotalRival")
+
+/*
+function crearPokemon(pokemon){
+    const spriteFrente = document.createElement("img")
+    spriteFrente.src = pokemon.sprites.front_default
+    const spriteAtras = document.createElement("img")
+    spriteAtras.src = pokemon.sprites.back_default
+    const nombre = document.createElement("p")
+    nombre.textContent = pokemon.name
+    const hp = document.createElement("p")
+    hp.textContent = pokemon.stats[0].base_stat
+}*/ 
+// Esta ultima crea un pokemon para ponerlo en el html pero 
+// no me sirve para lo que quiero
