@@ -6,8 +6,10 @@
     font-family: pokemonText;
 }
 
-.logo{
+.logo {
     height: 200px;
+    animation: aparecerDeArriba 2s ease;
+    position: relative;
 }
 
 .starters{

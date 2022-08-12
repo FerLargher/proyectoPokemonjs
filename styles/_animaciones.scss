@@ -9,3 +9,11 @@
   @keyframes subeBaja {
     0% { transform: translateY(1em);}
   }
+
+  @keyframes aparecerDeArriba {
+    0% {top: -500px;}
+    25%{top: -250px;}
+    //50% {top: 0px;}
+    75% {top:50px}
+    100%{top: 0px}
+}
