@@ -70,33 +70,53 @@
         </div>
     </section>
     <!--    BATALLA POKEMON      -->
-    <section id="batallaPokemon">
-        <div id="statusEnemigo">
-            <p>HP: </p>
-            <p id="hpRival"></p>
-            <p> / </p>
-            <p id="hpTotalRival"></p>
+    <section id="batalla">
+        <div id="batallaPokemon">
+            <div id="statusEnemigo">
+                <div class="cuadroHP">
+                    <div>
+                        <p id="nombreRival">hola</p>
+                    </div>
+                    <div class="hpItems">
+                        <p id="hpRival"></p>
+                        <p>/</p>
+                        <p id="hpTotalRival"></p>
+                    </div>
+                </div>
+            </div>
+            <div id="pokemonRival">
+                <img src="./img/charmander_front.gif" alt="" id="spriteRival">
+            </div>
+            <div id="pokemonInicial">
+                <img src="./img/bulbasaur_back.gif" alt="" id="spriteInicial">
+            </div>
+            <div id="statusPokemon">
+                <div class="cuadroHP">
+                    <div>
+                        <p id="nombreInicial">hola</p>
+                    </div>
+                    <div class="hpItems">
+                        <p id="hpPokemonInicial"></p>
+                        <p>/</p>
+                        <p id="hpTotalInicial"></p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="pokemonRival">
-            <img src="./img/charmander.gif" alt="" height="200px">
-        </div>
-        <div id="pokemonInicial">
-            <img src="./img/bulbaBack.png" alt="" height="100px">
-        </div>
-        <div id="statusPokemon">
-            <p>HP: </p>
-            <p id="hpPokemonInicial"></p>
-            <p> / </p>
-            <p id="hpTotalInicial"></p>
-        </div>
-        <div id="pelea">
-            <p>Atacar</p>
-        </div>
-        <div id="curar">
-            <p>Curar</p>
+        <div id="acciones">
+            <div id="pelea">
+                <button class="btn-batalla" id="atacar">Atacar</button>
+            </div>
+            <div id="curar">
+                <button class="btn-batalla">Curar</button>
+            </div>
+            <div id="textoBatalla">
+                <p id="mensaje"></p>
+            </div>
         </div>
     </section>
-
+    
+    <!-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
     <script src="./main.js"></script>
 </body>
 </html>

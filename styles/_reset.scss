@@ -4,4 +4,7 @@ body{
     box-sizing: border-box;
     background-color: rgb(241, 192, 175);
     font-family: pokemonText;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

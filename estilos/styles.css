@@ -9,6 +9,9 @@ body {
   box-sizing: border-box;
   background-color: #f1c0af;
   font-family: pokemonText;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 @keyframes tilt-shaking {
@@ -93,6 +96,7 @@ body {
 
 #texto {
   font-family: pokemonText;
+  font-size: 1.3em;
 }
 
 #discurso {
@@ -111,24 +115,6 @@ body {
   background-color: #fff;
   padding: 20px;
   border: 2px solid black;
-}
-
-@keyframes tilt-shaking {
-  0% {
-    transform: rotate(0deg);
-  }
-  25% {
-    transform: rotate(5deg);
-  }
-  50% {
-    transform: rotate(0deg);
-  }
-  75% {
-    transform: rotate(-5deg);
-  }
-  100% {
-    transform: rotate(0deg);
-  }
 }
 
 #abierta {
@@ -259,13 +245,22 @@ body {
   cursor: pointer;
 }
 
-#batallaPokemon {
-  width: 50%;
+p {
+  margin: 0;
+}
+
+#batalla {
   display: none;
+}
+
+#batallaPokemon {
+  width: 48em;
+  height: 28em;
+  display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 0.5fr, 1fr 1fr 0.3fr;
-  grid-template-areas: ". ."  "statusEnemigo pokemonRival" "pokemonInicial statusPokemon" "pelea curar";
-  background-image: url("./fondo.png");
+  grid-template-rows: 1.8fr 1fr;
+  grid-template-areas: "statusEnemigo pokemonRival" "pokemonInicial statusPokemon";
+  background-image: url("../img/fondo.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -274,6 +269,11 @@ body {
 #pokemonRival {
   display: flex;
   justify-content: center;
+  align-items: flex-end;
+}
+
+#pokemonRival img {
+  height: 10em;
 }
 
 #pokemonInicial {
@@ -282,7 +282,12 @@ body {
   align-items: flex-end;
 }
 
+#pokemonInicial img {
+  height: 10em;
+}
+
 #pelea, #curar {
+  width: 48em;
   border: 1px solid black;
   display: flex;
   justify-content: center;
@@ -292,14 +297,54 @@ body {
 }
 
 #statusEnemigo {
-  font-size: 2em;
-  padding-left: 1em;
   display: flex;
+  align-items: center;
 }
 
 #statusPokemon {
-  font-size: 2em;
-  padding-left: 1em;
   display: flex;
+  align-items: center;
+}
+
+.cuadroHP {
+  background-color: #fff;
+  height: 4em;
+  width: 20em;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  align-items: center;
+  justify-content: center;
+}
+
+#acciones {
+  display: flex;
+  width: 48em;
+}
+
+.hpItems {
+  display: flex;
+}
+
+.btn-batalla {
+  width: 100%;
+  height: 3em;
+  border: none;
+  background-color: #959595;
+  font-size: 0.5em;
+}
+
+.btn-batalla:hover {
+  cursor: pointer;
+}
+
+#textoBatalla {
+  width: 100%;
+  height: 3em;
+  font-size: 3em;
+  display: none;
+  background-color: gray;
+  align-items: center;
+  justify-content: center;
 }
 /*# sourceMappingURL=styles.css.map */

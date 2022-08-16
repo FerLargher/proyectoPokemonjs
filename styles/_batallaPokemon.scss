@@ -1,14 +1,21 @@
-#batallaPokemon{
-    width: 50%;
+p{
+    margin: 0;
+}
+
+#batalla{
     display: none;
+}
+
+#batallaPokemon{
+    width: 48em;
+    height: 28em;
+    display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 0.5fr, 1fr 1fr 0.3fr;
+    grid-template-rows: 1.8fr 1fr;
     grid-template-areas:
-    ". ." 
     "statusEnemigo pokemonRival"
-    "pokemonInicial statusPokemon"
-    "pelea curar";
-    background-image: url("./fondo.png");
+    "pokemonInicial statusPokemon";
+    background-image: url("../img/fondo.png");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -17,6 +24,11 @@
 #pokemonRival{
     display: flex;
     justify-content: center;
+    align-items: flex-end;
+}
+
+#pokemonRival img{
+    height: 10em;
 }
 
 #pokemonInicial{
@@ -25,7 +37,12 @@
     align-items: flex-end;
 }
 
+#pokemonInicial img{
+    height: 10em;
+}
+
 #pelea , #curar{
+    width: 48em;
     border: 1px solid black;
     display: flex;
     justify-content: center;
@@ -36,13 +53,54 @@
 
 
 #statusEnemigo{
-    font-size: 2em;
-    padding-left: 1em;
     display: flex;
+    align-items: center;
 }
 
 #statusPokemon{
-    font-size: 2em;
-    padding-left: 1em;
     display: flex;
+    align-items: center;
+} 
+
+.cuadroHP{
+    background-color: #fff;
+    height: 4em;
+    width: 20em;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    align-items: center;
+    justify-content: center;
+}
+
+#acciones{
+    display: flex;
+    width: 48em;
+}
+
+.hpItems{
+    display: flex;
+}
+
+.btn-batalla{
+    width: 100%;
+    height: 3em;
+    border: none;
+    background-color: rgb(149, 149, 149);
+    font-size: 0.5em;
+}
+
+.btn-batalla:hover{
+    cursor: pointer;
+}
+
+#textoBatalla{
+
+    width: 100%;
+    height: 3em;
+    font-size: 3em;
+    display: none;
+    background-color: gray;
+    align-items: center;
+    justify-content: center;
 }

@@ -42,9 +42,7 @@ let subtitulo = document.getElementById("subtitulo")
 let botonSi = document.querySelector(".botonSi")
 let botonNo = document.querySelector(".botonNo")
 
-
-// CONSTRUCTOR DE POKEMON
-
+// SECCION BATALLA POKEMON
 class Pokemon{
     constructor(nombre, numero, tipo, ataque, hp, rival, hpMax){
         this.nombre = nombre;
@@ -57,25 +55,40 @@ class Pokemon{
     }
 }
 
-class Objetos{
-    constructor(nombre, cantidad){
-        this.nombre = nombre;
-        this.cantidad = cantidad;
-    }
-}
-
 const bulbasaur = new Pokemon("bulbasaur", 01, "planta", 4, 22, "charmander", 22);
 const charmander = new Pokemon("charmander", 04, "fuego", 6, 18, "squirtle", 18);
 const squirtle = new Pokemon("squirtle", 07, "agua", 8, 16, "bulbasaur", 16);
-const pidgey = new Pokemon("Pidgey", 16, "Volador", 4, 10, "", 10);
-const rattata = new Pokemon("Rattata", 19, "Normal", 4, 10, "", 10);
-let listaPokemon = [bulbasaur, charmander, squirtle, pidgey, rattata]
-let equipoPokemon = []
-
-// BATALLA POKEMON
-
+let sectionBatalla = document.getElementById("batalla")
 let divBatallaPokemon = document.getElementById("batallaPokemon")
+let pokemonElegido = 1
+let pokemonElegidoRival = elegirPokemonRival(pokemonElegido)
+let pokedex = []
+let equipo = []
+let equipoRival = []
+let hpRival = document.getElementById("hpRival")
+let hpTotalRival = document.getElementById("hpTotalRival")
+let hpPokemonInicial = document.getElementById("hpPokemonInicial")
+let hpTotalInicial = document.getElementById("hpTotalInicial")
+let nombreRival = document.getElementById("nombreRival")
+let nombreInicial = document.getElementById("nombreInicial")
+let spriteRival = document.getElementById("spriteRival")
+let spriteInicial = document.getElementById("spriteInicial")
+let atacar = document.getElementById("atacar")
+let curar = document.getElementById("curar")
+let pelea = document.getElementById("pelea")
+let acciones = document.getElementById("acciones")
+let textoBatalla = document.getElementById("textoBatalla")
+let mensaje = document.getElementById("mensaje")
 
+pokedex.push(bulbasaur, charmander, squirtle)
+equipo.push(pokedex[pokemonElegido])
+equipoRival.push(pokedex[pokemonElegidoRival])
+hpRival.innerText = equipoRival[0].hp
+hpTotalRival.innerText = equipoRival[0].hpMax
+hpPokemonInicial.innerText = equipo[0].hp
+hpTotalInicial.innerText = equipo[0].hpMax
+nombreRival.innerText = equipoRival[0].nombre.toUpperCase()
+nombreInicial.innerText = equipo[0].nombre.toUpperCase()
 
 /*********** DISCURSO ***********/
 
@@ -180,7 +193,6 @@ divPokebola3.addEventListener("mouseleave", () =>{
 
 divPokebola.addEventListener("click", () => {
     bulbasaurDescripcion.style.display = "initial"
-    console.log(bulbasaurDescripcion.style.display)
     subtitulo.innerText = "Estas seguro?"
     divPokebolasIniciales.style.display = "none"
     botones.style.display = "flex"
@@ -195,8 +207,10 @@ divPokebola.addEventListener("click", () => {
         subtitulo.addEventListener("click", () =>{
             subtitulo.innerText = "¡Un rival aparecio y te desafia a una batalla!"
             subtitulo.addEventListener("click", () =>{
+                pokemonElegido = 0
+                console.log(pokemonElegido)
                 seleccionPoke.style.display = "none"
-                divBatallaPokemon.style.display = "grid"
+                sectionBatalla.style.display = "initial"
             })
         })
     })
@@ -218,8 +232,10 @@ divPokebola2.addEventListener("click", () => {
         subtitulo.addEventListener("click", () =>{
             subtitulo.innerText = "¡Un rival aparecio y te desafia a una batalla!"
             subtitulo.addEventListener("click", () =>{
+                pokemonElegido = 1
+                console.log(pokemonElegido)
                 seleccionPoke.style.display = "none"
-                divBatallaPokemon.style.display = "grid"
+                sectionBatalla.style.display = "initial"
             })
         })
     })
@@ -241,53 +257,103 @@ divPokebola3.addEventListener("click", () => {
         subtitulo.addEventListener("click", () =>{
             subtitulo.innerText = "¡Un rival aparecio y te desafia a una batalla!"
             subtitulo.addEventListener("click", () =>{
+                pokemonElegido = 2
+                console.log(pokemonElegido)
                 seleccionPoke.style.display = "none"
-                divBatallaPokemon.style.display = "grid"
+                sectionBatalla.style.display = "initial"
             })
         })
     })
 })
 
-
-
 /***********    BATALLA POKEMON ***********/
 
-/*
-const batallaPokemon = document.querySelector("#batallaPokemon")
-
-function fetchPokemon(id){
-    fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
-    .then(res => res.json())
-    .then(data => {
-        console.log(data)
-    })
+function random(min, max) {
+    return Math.floor((Math.random() * (max - min + 1)) + min);
 }
-fetchPokemon(1) // esta me trae a bulbasaur
 
-function fetchPokemons(numero){
-    for (let i = 1; i < numero; i++) {
-        fetchPokemon(i)
+function elegirPokemonRival(inicial){
+    if(inicial == 0){
+        return 1
+    } else if (inicial == 1){
+        return 2
+    } else if(inicial == 2){
+        return 0
     }
-}   // esta trae un conjunto de pokemon desde el 1 hasta el numero que elija
-// mi idea era traer por ejemplo los primeros 25 y guardarlos en un array para acceder 
-// a sus datos cuando quiera
+}
 
-let equipoPokemon = []
-let equipoRival = []
-let statusEnemigo = document.querySelector("#statusEnemigo")
-let hpRival = document.querySelector("#hpRival")
-let hpTotalRival = document.querySelector("#hpTotalRival")
+function elegirSpriteRival(inicial, sprite){
+    if(inicial == 0){
+        sprite.src = "./img/charmander_front.gif"
+    } else if (inicial == 1){
+        sprite.src = "./img/squirtle_front.gif"
+    } else if (inicial == 2){
+        sprite.src = "./img/bulbasaur_front.gif"
+    }
+}
 
-/*
-function crearPokemon(pokemon){
-    const spriteFrente = document.createElement("img")
-    spriteFrente.src = pokemon.sprites.front_default
-    const spriteAtras = document.createElement("img")
-    spriteAtras.src = pokemon.sprites.back_default
-    const nombre = document.createElement("p")
-    nombre.textContent = pokemon.name
-    const hp = document.createElement("p")
-    hp.textContent = pokemon.stats[0].base_stat
-}*/ 
-// Esta ultima crea un pokemon para ponerlo en el html pero 
-// no me sirve para lo que quiero
+function elegirSpriteInicial(inicial, sprite){
+    if(inicial == 0){
+        sprite.src = "./img/bulbasaur_back.gif"
+    } else if (inicial == 1){
+        sprite.src = "./img/charmander_back.gif"
+    } else if (inicial == 2){
+        sprite.src = "./img/squirtle_back.gif"
+    }
+}
+
+function comprobarMuerte(hp){
+    if(hp > 0){
+        return false;
+    } else {
+        return true;
+    }
+}
+
+elegirSpriteRival(pokemonElegido, spriteRival)
+elegirSpriteInicial(pokemonElegido, spriteInicial)
+
+atacar.addEventListener("click", ()=>{
+    if(random(1,10) <= 6){
+        // colocar algun mensaje diciendo xpokemon ataco y saco tanta vida
+        equipoRival[0].hp -= equipo[0].ataque
+        hpRival.innerText = equipoRival[0].hp
+        console.log(`${equipoRival[0].nombre} a sufrido ${equipo[0].ataque} de daño`)
+        if(comprobarMuerte(equipoRival[0].hp)){
+            hpRival.innerText = 0
+            console.log(`${equipoRival[0].nombre} a sido debilitado`)
+            spriteRival.style.transition = "ease 3s"
+            spriteRival.style.opacity = 0
+            pelea.remove()
+            curar.remove()
+            textoBatalla.style.display = "flex"
+            textoBatalla.style.backgroundColor = "green"
+            mensaje.innerText = `${equipo[0].nombre} vencio a ${equipoRival[0].nombre}`
+            textoBatalla.addEventListener("click", () =>{
+                //Swal.fire("Felicidades , ganaste!")
+                alert("ganaste")
+                sectionBatalla.innerHTML = ""
+            })
+        }
+    } else {
+        equipo[0].hp -= equipoRival[0].ataque
+        hpPokemonInicial.innerText = equipo[0].hp
+        console.log(`${equipo[0].nombre} a sufrido ${equipoRival[0].ataque} de daño`)
+        if(comprobarMuerte(equipo[0].hp)){
+            hpPokemonInicial.innerText = 0
+            console.log(`${equipo[0].nombre} a sido debilitado`)
+            spriteInicial.style.transition = "ease 3s"
+            spriteInicial.style.opacity = 0
+            pelea.remove()
+            curar.remove()
+            textoBatalla.style.display = "flex"
+            textoBatalla.style.backgroundColor = "red"
+            mensaje.innerText = `${equipoRival[0].nombre} vencio a ${equipo[0].nombre}`
+            textoBatalla.addEventListener("click", () =>{
+                //Swal.fire("Lastima , perdiste!")
+                alert("perdiste")
+                sectionBatalla.innerHTML = ""
+            })
+        }
+    }
+})
