@@ -1,19 +1,31 @@
 @keyframes tilt-shaking {
-    0% { transform: rotate(0deg); }
-    25% { transform: rotate(5deg); }
-    50% { transform: rotate(0eg); }
-    75% { transform: rotate(-5deg); }
-    100% { transform: rotate(0deg); }
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(5deg); }
+  50% { transform: rotate(0eg); }
+  75% { transform: rotate(-5deg); }
+  100% { transform: rotate(0deg); }
   }
 
-  @keyframes subeBaja {
-    0% { transform: translateY(1em);}
+@keyframes rebote{
+    20%, 50%, 80%{ transform: translateY(0px) }
+    30%{ transform: translateY(-45px) }
+    60%{ transform: translateY(-25px) }
   }
 
-  @keyframes aparecerDeArriba {
-    0% {top: -500px;}
-    25%{top: -250px;}
-    //50% {top: 0px;}
-    75% {top:50px}
-    100%{top: 0px}
+
+@keyframes aparecerDeArriba {
+  0% {top: -500px;}
+  25%{top: -250px;}
+  //50% {top: 0px;}
+  75% {top:50px}
+  100%{top: 0px}
+}
+
+@keyframes vaiven{
+	15%{ transform: rotate(-10deg) translateX(-25%) }
+	30%{ transform: rotate(5deg) translateX(20%) }
+	45%{ transform: rotate(-3deg) translateX(-10%) }
+	60%{ transform: rotate(2deg) translateX(5%) }
+	75%{ transform: rotate(-1deg) translateX(-3%) }
+  
 }

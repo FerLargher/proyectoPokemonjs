@@ -1,3 +1,10 @@
+body{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif
+}
+
 p{
     margin: 0;
 }
@@ -11,34 +18,34 @@ p{
     height: 28em;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1.8fr 1fr;
+    grid-template-rows: 329px 206px;
     grid-template-areas:
-    "statusEnemigo pokemonRival"
-    "pokemonInicial statusPokemon";
-    background-image: url("../img/fondo.png");
+        "statusEnemigo pokemonRival"
+        "pokemonInicial statusPokemon";
+    background-image: url(../img/fondo.png);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
 }
 
-#pokemonRival{
+#pokemon-1{
     display: flex;
     justify-content: center;
     align-items: flex-end;
 }
 
-#pokemonRival img{
-    height: 10em;
+#pokemon-1 img{
+    height: 200px;
 }
 
-#pokemonInicial{
+#pokemon-2{
     display: flex;
     justify-content: center;
     align-items: flex-end;
 }
 
-#pokemonInicial img{
-    height: 10em;
+#pokemon-2 img{
+    height: 300px;
 }
 
 #pelea , #curar{
@@ -59,7 +66,7 @@ p{
 
 #statusPokemon{
     display: flex;
-    align-items: center;
+    align-items: flex-start;
 } 
 
 .cuadroHP{
