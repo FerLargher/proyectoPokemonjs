@@ -47,32 +47,7 @@ let pokemonRival
 // SECCION BATALLA POKEMON
 
 let sectionBatalla = document.getElementById("batalla")
-let pokedex = [];
 
-for (let i = 1; i < 26; i++) {
-    fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
-        .then((response) => response.json())
-        .then((data) => {
-            const pokemon = {
-                img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${data.id}.png`,
-
-                id: data.id,
-
-                tipo: data.types[0].type.name,
-
-                nombre: data.name,
-
-                hp: data.stats[0].base_stat,
-
-                ataque: data.stats[1].base_stat,
-
-                defensa: data.stats[2].base_stat,
-
-                especial: data.stats[3].base_stat,
-            };
-            pokedex.push(pokemon);
-        });
-}
 
 
 /*********** DISCURSO ***********/
@@ -255,17 +230,31 @@ divPokebola3.addEventListener("click", () => {
 /***********    BATALLA POKEMON ***********/
 
 class Pokemon{
-    constructor(nombre, numero, tipo, hp, ataque, ataqueEspecial, defensaEspecial, velocidad, nivel, hpMax){
+    constructor(ivs, nivel, nombre, numero, tipo, hp, ataque, defensa, ataqueEspecial, defensaEspecial, velocidad, hpMax, ataques){
+        this.ivs = ivs;
+        this.nivel = nivel;
         this.nombre = nombre;
         this.numero = numero;
         this.tipo = tipo;
         this.hp = hp;
         this.ataque = ataque;
+        this.defensa = defensa;
         this.ataqueEspecial = ataqueEspecial;
         this.defensaEspecial = defensaEspecial;
         this.velocidad = velocidad;
-        this.nivel = nivel;
         this.hpMax = hpMax;
+        this.ataques = ataques;
+    }
+}
+
+class Iv{
+    constructor(hp, atk, def, spatk, spdef, vel){
+        this.hp = hp;
+        this.atk = atk;
+        this.def = def;
+        this.spatk = spatk;
+        this.spdef = spdef;
+        this.vel = vel;
     }
 }
 
@@ -300,21 +289,51 @@ function obtenerOtraStat(base){
     return Math.round((Math.floor(0.01 * (2 * base + 15 + Math.floor(0.25 * 1)) * 5) + 5))                
 }
 
+function crearObjetoIV(){
+    let iv = new Iv (
+        random(1,31),
+        random(1,31),
+        random(1,31),
+        random(1,31),
+        random(1,31),
+        random(1,31)
+    )
+    return iv;
+}
+
+function cargarAtaques(pokemon){
+    if(pokemon.name == "charmander"){
+        return obtenerLocalStorageAtaque(10)
+    } else {
+        return obtenerLocalStorageAtaque(1)
+    }
+}
+
 function crearObjetoPokemon(pokemon){
-    let poke = new Pokemon(pokemon.name, 
+    let ivs = crearObjetoIV()
+    let poke = new Pokemon(
+        ivs,
+        5,
+        pokemon.name, 
         pokemon.id, 
         pokemon.types[0].type.name, 
-        obtenerHP(pokemon.stats[0].base_stat),
-        obtenerOtraStat(pokemon.stats[1].base_stat),
-        obtenerOtraStat(pokemon.stats[2].base_stat),
-        obtenerOtraStat(pokemon.stats[3].base_stat),
-        obtenerOtraStat(pokemon.stats[4].base_stat),
-        5,
-        obtenerHP(pokemon.stats[0].base_stat))
+        obtenerHP(pokemon.stats[0].base_stat, ivs.hp, 0, 5),
+        obtenerOtraStat(pokemon.stats[1].base_stat, ivs.atk, 0, 5),
+        obtenerOtraStat(pokemon.stats[2].base_stat, ivs.def, 0, 5),
+        obtenerOtraStat(pokemon.stats[3].base_stat, ivs.spatk, 0, 5),
+        obtenerOtraStat(pokemon.stats[4].base_stat, ivs.spdef, 0, 5),
+        obtenerOtraStat(pokemon.stats[5].base_stat, ivs.vel, 0, 5), 
+        obtenerHP(pokemon.stats[0].base_stat, ivs.hp, 0, 5),
+        cargarAtaques(pokemon))
         return poke
 }
 
-function batallaPokemon(rival, inicial){
+function calcularDanio(bonificacion, efectividad, variacion, nivel, cantAtaque, poderAtaque, cantDefensa){
+    return Math.round((0.01 * bonificacion * efectividad * variacion ) * ( ( ( ( 0.2 * nivel + 1 ) * ( cantAtaque * poderAtaque) ) / ( 25 * cantDefensa ) ) + 2 ) )  
+}
+
+
+function batallaPokemon(rival, inicial, ataques){
     console.log("BATALLA!")
     let atacar = document.getElementById("atacar")
     let hpRival = document.getElementById(`hp-1`)
@@ -322,12 +341,15 @@ function batallaPokemon(rival, inicial){
     let spriteRival = document.getElementById("spriteRival")
     let spriteInicial = document.getElementById("spriteInicial")
     let textoBatalla = document.getElementById("textoBatalla")
+    let danio = 0
     atacar.addEventListener("click", ()=>{
-        if(random(1,10) <= 9){
+        if(inicial[0].velocidad >= rival[0].velocidad){
             // colocar algun mensaje diciendo xpokemon ataco y saco tanta vida
-            rival[0].hp -= inicial[0].ataque
+            danio = calcularDanio(1, 1, random(85, 100), inicial[0].nivel, inicial[0].ataque, inicial[0].ataques.power, rival[0].defensa)
+            rival[0].hp -= danio
             hpRival.innerText = rival[0].hp
-            console.log(`${rival[0].nombre} a sufrido ${inicial[0].ataque} de daño`)
+            console.log(`${rival[0].nombre} a sufrido ${danio} de daño`)
+
             if(comprobarMuerte(rival[0].hp)){
                 hpRival.innerText = 0
                 console.log(`${rival[0].nombre} a sido debilitado`)
@@ -342,11 +364,18 @@ function batallaPokemon(rival, inicial){
                     sectionBatalla.innerHTML = ""
                     alert('Felicidades , ganaste!')
                 })
+            } else {
+                danio = calcularDanio(1, 1, random(85,100), rival[0].nivel, rival[0].ataque, rival[0].ataques.power, inicial[0].defensa)
+                inicial[0].hp -= danio
+                hpInicial.innerText = inicial[0].hp
+                console.log(`${inicial[0].nombre} a sufrido ${danio} de daño`)
             }
         } else {
-            inicial[0].hp -= rival[0].ataque
+            danio = calcularDanio(1, 1, random(85,100), rival[0].nivel, rival[0].ataque, rival[0].ataques.power, inicial[0].defensa)
+            inicial[0].hp -= danio
             hpInicial.innerText = inicial[0].hp
-            console.log(`${inicial[0].nombre} a sufrido ${rival[0].ataque} de daño`)
+            console.log(`${inicial[0].nombre} a sufrido ${danio} de daño`)
+
             if(comprobarMuerte(inicial[0].hp)){
                 hpInicial.innerText = 0
                 console.log(`${inicial[0].nombre} a sido debilitado`)
@@ -361,43 +390,78 @@ function batallaPokemon(rival, inicial){
                     sectionBatalla.innerHTML = ""
                     alert('Lastima , perdiste!')
                 })
+            } else {
+                danio = calcularDanio(1, 1, random(85, 100), inicial[0].nivel, inicial[0].ataque, inicial[0].ataques.power, rival[0].defensa)
+                rival[0].hp -= danio
+                hpRival.innerText = rival[0].hp
+                console.log(`${rival[0].nombre} a sufrido ${danio} de daño`)
             }
         }
     })
 }
 
+function crearAtaqueHtml(ataque){
+    let atacar = document.getElementById("atacar")
+    atacar.textContent = ataque.name
+}
 
+function obtenerLocalStorageAtaque(id){
+    let atk = JSON.parse(localStorage.getItem(`ataque_${id}`))
+    return atk;
+}
+
+function consultarAtaque(id){
+    fetch(`https://pokeapi.co/api/v2/move/${id}`)
+    .then(function(response){
+        response.json()
+        .then(function(ataque){
+            localStorage.setItem(`ataque_${id}`, JSON.stringify(ataque))
+        })
+    })
+}
+
+function consultarAtaques(inicial, id_pound, id_scratch){ // 1
+    consultarAtaque(id_pound) 
+    consultarAtaque(id_scratch)
+    if(inicial == 1 || inicial == 7){
+        crearAtaqueHtml(obtenerLocalStorageAtaque(id_pound)) // bulbasaur y squirtle usan pound, embestida o placaje como su primer ataque
+    } else {
+        crearAtaqueHtml(obtenerLocalStorageAtaque(id_scratch)) // solo charmander tiene scratch o arañazo como primer ataque
+    }
+}
 
 function consultarPokemon(id, num) {
     fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
     .then(function(response){
         response.json()
         .then(function(pokemon){
-            crearPokemon(pokemon, num)
+            crearPokemonHtml(pokemon, num)
             localStorage.setItem(`pokemon_${id}`, JSON.stringify(pokemon))
         })
     })
 }
 
-function obtenerLocalStorage(pokemonElegido){
+function obtenerLocalStoragePokemon(pokemonElegido){
     let poke = JSON.parse(localStorage.getItem(`pokemon_${pokemonElegido}`))
     return poke;
 }
 
 
-function consultarPokemones(pokemonElegido) {
+function consultarPokemones(pokemonElegido) { // 1
     let aliado = pokemonElegido
     let enemigo = elegirRival(pokemonElegido)
     consultarPokemon(enemigo, 1)
     consultarPokemon(aliado, 2)
-    let equipo = [crearObjetoPokemon(obtenerLocalStorage(pokemonElegido))]
-    let equipoRival = [crearObjetoPokemon(obtenerLocalStorage(enemigo))]
-    console.log(equipo[0].ataque)
-    console.log(equipo[0].hp)
-    batallaPokemon(equipoRival, equipo)
+    let equipo = [crearObjetoPokemon(obtenerLocalStoragePokemon(pokemonElegido))]
+    let equipoRival = [crearObjetoPokemon(obtenerLocalStoragePokemon(enemigo))]
+    id_pound = 1 // pound o embestida
+    id_scratch = 10 // scratch o arañazo
+    consultarAtaques(pokemonElegido, id_pound, id_scratch)
+    let ataques = [obtenerLocalStorageAtaque(id_pound), obtenerLocalStorageAtaque(id_scratch)]
+    batallaPokemon(equipoRival, equipo, ataques)
 }
 
-function crearPokemon(pokemon, num){
+function crearPokemonHtml(pokemon, num){
     // convertir data a html
     if(num == 1){
         let spriteRival = document.getElementById("spriteRival")
