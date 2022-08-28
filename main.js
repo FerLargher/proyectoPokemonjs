@@ -1,6 +1,6 @@
 /******         DECLARACION DE VARIABLES         ******/ 
 
-// PANTALLA INICIAL
+// PANTALLA INICIAL  -----------------> VARIABLES
 
 let cuerpo = document.getElementById("cuerpoHtml")
 const boton = document.querySelector(".playButton button")
@@ -8,7 +8,7 @@ const titulo = document.getElementById("titulo")
 const intro = document.getElementById("intro")
 
 
-// SECCION DISCURSO
+// SECCION DISCURSO -----------------> VARIABLES
 
 let seccionDiscurso = document.getElementById("discurso")
 let divSprite = document.createElement("div")
@@ -30,7 +30,7 @@ submitNombre.setAttribute("type", "submit")
 submitNombre.setAttribute("value", "enviar")
 
 
-// SECCION SELECCION POKEMON
+// SECCION SELECCION POKEMON   -----------------> VARIABLES
 
 let seleccionPoke = document.getElementById("seleccionPokemon");
 let pokebolaCerrada = document.getElementById("cerrada");
@@ -44,13 +44,41 @@ let botonNo = document.querySelector(".botonNo")
 let pokemonElegido
 let pokemonRival
 
-// SECCION BATALLA POKEMON
+// SECCION BATALLA POKEMON      -----------------> VARIABLES
 
 let sectionBatalla = document.getElementById("batalla")
 
+class Pokemon{
+    constructor(ivs, nivel, nombre, numero, tipo, hp, ataque, defensa, ataqueEspecial, defensaEspecial, velocidad, hpMax, ataques){
+        this.ivs = ivs;
+        this.nivel = nivel;
+        this.nombre = nombre;
+        this.numero = numero;
+        this.tipo = tipo;
+        this.hp = hp;
+        this.ataque = ataque;
+        this.defensa = defensa;
+        this.ataqueEspecial = ataqueEspecial;
+        this.defensaEspecial = defensaEspecial;
+        this.velocidad = velocidad;
+        this.hpMax = hpMax;
+        this.ataques = ataques;
+    }
+}
+
+class Iv{
+    constructor(hp, atk, def, spatk, spdef, vel){
+        this.hp = hp;
+        this.atk = atk;
+        this.def = def;
+        this.spatk = spatk;
+        this.spdef = spdef;
+        this.vel = vel;
+    }
+}
 
 
-/*********** DISCURSO ***********/
+/*********** DISCURSO FUNCIONES Y EVENTOS ***********/
 
 boton.onclick = () => {
     titulo.remove()
@@ -87,7 +115,7 @@ texto.addEventListener("click", () => {
     })
 })
 
-/********************   SELECCION POKEMON   ******************/
+/********************   SELECCION POKEMON FUNCIONES Y EVENTOS   ******************/
 
 //FUNCION ABRIR Y CERRAR POKEBALL
 
@@ -227,36 +255,7 @@ divPokebola3.addEventListener("click", () => {
     })
 })
 
-/***********    BATALLA POKEMON ***********/
-
-class Pokemon{
-    constructor(ivs, nivel, nombre, numero, tipo, hp, ataque, defensa, ataqueEspecial, defensaEspecial, velocidad, hpMax, ataques){
-        this.ivs = ivs;
-        this.nivel = nivel;
-        this.nombre = nombre;
-        this.numero = numero;
-        this.tipo = tipo;
-        this.hp = hp;
-        this.ataque = ataque;
-        this.defensa = defensa;
-        this.ataqueEspecial = ataqueEspecial;
-        this.defensaEspecial = defensaEspecial;
-        this.velocidad = velocidad;
-        this.hpMax = hpMax;
-        this.ataques = ataques;
-    }
-}
-
-class Iv{
-    constructor(hp, atk, def, spatk, spdef, vel){
-        this.hp = hp;
-        this.atk = atk;
-        this.def = def;
-        this.spatk = spatk;
-        this.spdef = spdef;
-        this.vel = vel;
-    }
-}
+/***********    BATALLA POKEMON FUNCIONES Y EVENTOS    ***********/
 
 
 function random(min, max) {
@@ -445,7 +444,6 @@ function obtenerLocalStoragePokemon(pokemonElegido){
     let poke = JSON.parse(localStorage.getItem(`pokemon_${pokemonElegido}`))
     return poke;
 }
-
 
 function consultarPokemones(pokemonElegido) { // 1
     let aliado = pokemonElegido
