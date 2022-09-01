@@ -32,6 +32,9 @@ submitNombre.setAttribute("value", "enviar")
 
 // SECCION SELECCION POKEMON   -----------------> VARIABLES
 
+
+let pokeIniciales
+let pokedex = []
 let seleccionPoke = document.getElementById("seleccionPokemon");
 let pokebolaCerrada = document.getElementById("cerrada");
 let pokebolaAbierta = document.getElementById("abierta");
@@ -44,9 +47,12 @@ let botonNo = document.querySelector(".botonNo")
 let pokemonElegido
 let pokemonRival
 
+
+
 // SECCION BATALLA POKEMON      -----------------> VARIABLES
 
 let sectionBatalla = document.getElementById("batalla")
+let textoBatalla = document.getElementById("textoBatalla")
 
 class Pokemon{
     constructor(ivs, nivel, nombre, numero, tipo, hp, ataque, defensa, ataqueEspecial, defensaEspecial, velocidad, hpMax, ataques){
@@ -110,6 +116,7 @@ texto.addEventListener("click", () => {
                 divDiscurso.textContent = ""
                 seleccionPoke.style.display = "flex"
                 seccionDiscurso.style.display = "none"
+                pokebolasIni();
             })
         })
     })
@@ -117,146 +124,93 @@ texto.addEventListener("click", () => {
 
 /********************   SELECCION POKEMON FUNCIONES Y EVENTOS   ******************/
 
-//FUNCION ABRIR Y CERRAR POKEBALL
-
-function cerrar(){
-    divPokebola.addEventListener("mouseleave", () => {
-        pokebolaCerrada.style.display = "none"
-        pokebolaAbierta.style.display = "initial"
-    })
+for (let i = 1; i < 26; i++) {
+    fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
+        .then((response) => response.json())
+        .then((data) => {
+            const pokemon = {
+                img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${data.id}.png`,
+                id: data.id,
+                nombre: data.name,
+            };
+            pokedex.push(pokemon);
+        });
 }
 
-function abrir(){
-    divPokebola.addEventListener("mouseenter", () => {
-        pokebolaCerrada.style.display = "initial" 
-        pokebolaAbierta.style.display = "none"
-    })
+function pokebolasIni() {
+    // busco los pokemon que son iniciales en el array de pokedex
+    let bulbasaur = pokedex.find((e) => e.nombre === "bulbasaur");
+    let charmander = pokedex.find((e) => e.nombre === "charmander");
+    let squirtle = pokedex.find((e) => e.nombre === "squirtle");
+
+    // les agrego las descripciones que no estan en la API 
+    bulbasaur.descripcion =
+        "Una rara semilla fue plantada en su espalda al nacer. La planta brota y crece con este Pokémon.";
+
+    charmander.descripcion =
+        "Prefiere los sitios calientes. Dicen que cuando llueve sale vapor de la punta de su cola.";
+
+    squirtle.descripcion =
+        "Cuando se esconde en el caparazón, dispara agua a una presión increíble.";
+
+    // creo un array de pokeIniciales para trabajar con ellos 3 
+    pokeIniciales = [bulbasaur, charmander, squirtle];
+
+    // hago un forEach de pokeIniciales
+    pokeIniciales.forEach((e) => {
+        // creo el div donde se van a mostrar la pokebola 
+        let divPoke = document.createElement("div");
+        // creo el elemento de la pokebola
+        let imagenPokeBola = document.createElement("img");
+        imagenPokeBola.setAttribute("src", "./img/pokeball.png");
+        divPoke.appendChild(imagenPokeBola);
+        divPokebolasIniciales.appendChild(divPoke);
+        // creo los eventos mouseenter
+        divPoke.addEventListener("mouseenter", () => {
+            imagenPokeBola.setAttribute("src", "./img/pokeballAbierta.png");
+            // creo el div donde se va a mostar el pokemon en el evento mouseenter
+            console.log("abierta")
+            let divPokeDescription = document.createElement("div");
+            divPokeDescription.setAttribute("id", e.nombre);
+            divPokeDescription.innerHTML = `
+            <img src="${e.img}" alt="">
+            <h3>${e.nombre}</h3>
+            <p>${e.descripcion}</p>`;
+            divPokemonIniciales.appendChild(divPokeDescription);
+        });
+        divPoke.addEventListener("mouseleave", () => {
+            imagenPokeBola.setAttribute("src", "./img/pokeball.png");
+            divPokemonIniciales.innerHTML = "";
+        });
+        // creo el evento click dinamico 
+        divPoke.addEventListener("click", () => {
+            subtitulo.innerText = "Estas seguro?"
+            divPokebolasIniciales.style.display = "none"
+            botones.style.display = "flex"
+            botonNo.addEventListener("click", () => {
+                subtitulo.innerText = "Elige a tu pokemon"
+                divPokebolasIniciales.style.display = "flex"
+                botones.style.display = "none"
+            })
+            botonSi.addEventListener("click", () =>{
+                subtitulo.innerText = `Felicidades has elegido a ${e.nombre}`
+                botones.style.display = "none"
+                // seteo la variable pokemonElegido con el objeto que tengo 
+                pokemonElegido = e
+                subtitulo.addEventListener("click", () =>{
+                    subtitulo.innerText = "¡Un rival aparecio y te desafia a una batalla!"
+                    subtitulo.addEventListener("click", () =>{
+                        seleccionPoke.style.display = "none"
+                        sectionBatalla.style.display = "initial"
+                        consultarPokemones(pokemonElegido.id)
+                    })
+                })
+            })
+        });
+    });
 }
-
-// APARECER BULBASAUR
-let divPokebola = document.getElementById("pokebola")
-let bulbasaurDescripcion = document.getElementById("bulbasaur")
-
-divPokebola.addEventListener("mouseenter", () =>{
-    abrir()
-    bulbasaurDescripcion.style.display = "initial"
-})
-
-divPokebola.addEventListener("mouseleave", () =>{
-    bulbasaurDescripcion.style.display = "none"
-    cerrar()
-})
-
-//  APARECER CHARMANDER
-let divPokebola2 = document.getElementById("pokebola2")
-let charmanderDescripcion = document.getElementById("charmander")
-
-divPokebola2.addEventListener("mouseenter", () =>{
-    abrir()
-    charmanderDescripcion.style.display = "initial"
-})
-
-divPokebola2.addEventListener("mouseleave", () =>{
-    cerrar()
-    charmanderDescripcion.style.display = "none"
-})
-
-//  APARECER SQUIRTLE
-let divPokebola3 = document.getElementById("pokebola3")
-let squirtleDescripcion = document.getElementById("squirtle")
-
-divPokebola3.addEventListener("mouseenter", () =>{
-    abrir()
-    squirtleDescripcion.style.display = "initial"
-})
-
-divPokebola3.addEventListener("mouseleave", () =>{
-    cerrar()
-    squirtleDescripcion.style.display = "none"
-})
-
-// VALIDAR SELECCION POKEMON
-
-// CREO QUE NO APARECE EL POKEMON PORQUE AL HACER MOUSELEAVE LA DESCRIPCION DEL POKE
-// VUELVE A PONERSE EN NONE, AVERIGUAR FORMA DE SOLUCIONAR
-
-divPokebola.addEventListener("click", () => {
-    bulbasaurDescripcion.style.display = "initial"
-    subtitulo.innerText = "Estas seguro?"
-    divPokebolasIniciales.style.display = "none"
-    botones.style.display = "flex"
-    botonNo.addEventListener("click", () => {
-        subtitulo.innerText = "Elige a tu pokemon"
-        divPokebolasIniciales.style.display = "flex"
-        botones.style.display = "none"
-    })
-    botonSi.addEventListener("click", () =>{
-        subtitulo.innerText = "Felicidades has elegido a bulbasaur"
-        botones.style.display = "none"
-        subtitulo.addEventListener("click", () =>{
-            subtitulo.innerText = "¡Un rival aparecio y te desafia a una batalla!"
-            subtitulo.addEventListener("click", () =>{
-                pokemonElegido = 1
-                seleccionPoke.style.display = "none"
-                sectionBatalla.style.display = "grid"
-                consultarPokemones(pokemonElegido)
-            })
-        })
-    })
-})
-
-divPokebola2.addEventListener("click", () => {
-    subtitulo.innerText = "Estas seguro?"
-    charmanderDescripcion.style.display = "initial"
-    divPokebolasIniciales.style.display = "none"
-    botones.style.display = "flex"
-    botonNo.addEventListener("click", () => {
-        subtitulo.innerText = "Elige a tu pokemon"
-        divPokebolasIniciales.style.display = "flex"
-        botones.style.display = "none"
-    })
-    botonSi.addEventListener("click", () =>{
-        subtitulo.innerText = "Felicidades has elegido a charmander"
-        botones.style.display = "none"
-        subtitulo.addEventListener("click", () =>{
-            subtitulo.innerText = "¡Un rival aparecio y te desafia a una batalla!"
-            subtitulo.addEventListener("click", () =>{
-                pokemonElegido = 4
-                seleccionPoke.style.display = "none"
-                sectionBatalla.style.display = "grid"
-                consultarPokemones(pokemonElegido)
-            })
-        })
-    })
-})
-
-divPokebola3.addEventListener("click", () => {
-    subtitulo.innerText = "Estas seguro?"
-    squirtleDescripcion.style.display = "initial"
-    divPokebolasIniciales.style.display = "none"
-    botones.style.display = "flex"
-    botonNo.addEventListener("click", () => {
-        subtitulo.innerText = "Elige a tu pokemon"
-        divPokebolasIniciales.style.display = "flex"
-        botones.style.display = "none"
-    })
-    botonSi.addEventListener("click", () =>{
-        subtitulo.innerText = "Felicidades has elegido a squirtle"
-        botones.style.display = "none"
-        subtitulo.addEventListener("click", () =>{
-            subtitulo.innerText = "¡Un rival aparecio y te desafia a una batalla!"
-            subtitulo.addEventListener("click", () =>{
-                pokemonElegido = 7
-                seleccionPoke.style.display = "none"
-                sectionBatalla.style.display = "grid"
-                consultarPokemones(pokemonElegido)
-            })
-        })
-    })
-})
 
 /***********    BATALLA POKEMON FUNCIONES Y EVENTOS    ***********/
-
 
 function random(min, max) {
     return Math.floor((Math.random() * (max - min + 1)) + min);
@@ -328,80 +282,128 @@ function crearObjetoPokemon(pokemon){
 }
 
 function calcularDanio(bonificacion, efectividad, variacion, nivel, cantAtaque, poderAtaque, cantDefensa){
-    return Math.round((0.01 * bonificacion * efectividad * variacion ) * ( ( ( ( 0.2 * nivel + 1 ) * ( cantAtaque * poderAtaque) ) / ( 25 * cantDefensa ) ) + 2 ) )  
+    if(random(1,100) <= 6){
+        console.log("Golpe critico!") // Este golpe tiene una posibilidad del 6% 
+        return  Math.round(( ((0.01 * bonificacion * efectividad * variacion ) * ( ( ( ( 0.2 * nivel + 1 ) * ( cantAtaque * poderAtaque) ) / ( 25 * cantDefensa ) ) + 2 ) ) )  * 2) 
+    } else {
+        return Math.round((0.01 * bonificacion * efectividad * variacion ) * ( ( ( ( 0.2 * nivel + 1 ) * ( cantAtaque * poderAtaque) ) / ( 25 * cantDefensa ) ) + 2 ) )  
+    }
 }
 
 
-function batallaPokemon(rival, inicial, ataques){
+function finalBatalla(inicial, rival, num){
+    if(num == 1){       
+        let spriteRival = document.getElementById("spriteRival")
+        spriteRival.style.transition = "ease 3s"
+        spriteRival.style.opacity = 0
+        pelea.remove()
+        curar.remove()
+        textoBatalla.style.display = "flex"
+        textoBatalla.style.backgroundColor = "green"
+        mensaje.innerText = `${inicial} vencio a ${rival}`
+        textoBatalla.addEventListener("click", () =>{
+            sectionBatalla.innerHTML = ""
+            swal({
+                title: "Felicidades ganaste!",
+                icon: "success",
+              });
+        })
+    } else {
+        let spriteInicial = document.getElementById("spriteInicial")
+        spriteInicial.style.transition = "ease 3s"
+        spriteInicial.style.opacity = 0
+        pelea.remove()
+        curar.remove()
+        textoBatalla.style.display = "flex"
+        textoBatalla.style.backgroundColor = "red"
+        mensaje.innerText = `${rival} vencio a ${inicial}`
+        textoBatalla.addEventListener("click", () =>{
+            sectionBatalla.innerHTML = ""
+            swal({
+                title: "Lastima, perdiste!",
+                icon: "error",
+              });
+        })
+    }
+}
+
+function curarPokemon(inicial, hpInicial, rival){
+    let curar = document.getElementById("curar")
+    curar.addEventListener("click", () =>{
+        inicial[0].hp = inicial[0].hpMax
+        hpInicial.innerText = `${inicial[0].hp}`
+        swal({
+            title: `${inicial[0].nombre} recupero todo su hp con la pocion!`,
+            icon: "success",
+          });
+        danio = calcularDanio(1, 1, random(85,100), rival[0].nivel, rival[0].ataque, rival[0].ataques.power, inicial[0].defensa)
+        inicial[0].hp -= danio
+        hpInicial.innerText = inicial[0].hp
+        console.log(`${rival[0].nombre} hizo un daño de ${danio} a ${inicial[0].nombre}!`)
+        if(comprobarMuerte(inicial[0].hp)){
+            hpInicial.innerText = 0
+            finalBatalla(inicial[0].nombre, rival[0].nombre, 2)
+        }
+   })
+}
+
+function batallaPokemon(rival, inicial){
     console.log("BATALLA!")
     let atacar = document.getElementById("atacar")
+    let pocion = true;
     let hpRival = document.getElementById(`hp-1`)
     let hpInicial = document.getElementById(`hp-2`)
-    let spriteRival = document.getElementById("spriteRival")
-    let spriteInicial = document.getElementById("spriteInicial")
-    let textoBatalla = document.getElementById("textoBatalla")
     let danio = 0
     atacar.addEventListener("click", ()=>{
         if(inicial[0].velocidad >= rival[0].velocidad){
-            // colocar algun mensaje diciendo xpokemon ataco y saco tanta vida
+            let spriteInicial = document.getElementById("spriteInicial")
+            spriteInicial.style.animation = "ataqueInicial 0.5s 1"
             danio = calcularDanio(1, 1, random(85, 100), inicial[0].nivel, inicial[0].ataque, inicial[0].ataques.power, rival[0].defensa)
             rival[0].hp -= danio
             hpRival.innerText = rival[0].hp
-            console.log(`${rival[0].nombre} a sufrido ${danio} de daño`)
-
+            console.log(`${inicial[0].nombre} hizo un daño de ${danio} a ${rival[0].nombre}!`)
             if(comprobarMuerte(rival[0].hp)){
                 hpRival.innerText = 0
-                console.log(`${rival[0].nombre} a sido debilitado`)
-                spriteRival.style.transition = "ease 3s"
-                spriteRival.style.opacity = 0
-                pelea.remove()
-                curar.remove()
-                textoBatalla.style.display = "flex"
-                textoBatalla.style.backgroundColor = "green"
-                mensaje.innerText = `${inicial[0].nombre} vencio a ${rival[0].nombre}`
-                textoBatalla.addEventListener("click", () =>{
-                    sectionBatalla.innerHTML = ""
-                    alert('Felicidades , ganaste!')
-                })
+                finalBatalla(inicial[0].nombre, rival[0].nombre, 1)
             } else {
                 danio = calcularDanio(1, 1, random(85,100), rival[0].nivel, rival[0].ataque, rival[0].ataques.power, inicial[0].defensa)
                 inicial[0].hp -= danio
                 hpInicial.innerText = inicial[0].hp
-                console.log(`${inicial[0].nombre} a sufrido ${danio} de daño`)
+                console.log(`${rival[0].nombre} hizo un daño de ${danio} a ${inicial[0].nombre}!`)
+                if(comprobarMuerte(inicial[0].hp)){
+                    hpInicial.innerText = 0
+                    finalBatalla(inicial[0].nombre, rival[0].nombre, 2)
+                }
             }
         } else {
             danio = calcularDanio(1, 1, random(85,100), rival[0].nivel, rival[0].ataque, rival[0].ataques.power, inicial[0].defensa)
             inicial[0].hp -= danio
             hpInicial.innerText = inicial[0].hp
-            console.log(`${inicial[0].nombre} a sufrido ${danio} de daño`)
-
+            console.log(`${rival[0].nombre} hizo un daño de ${danio} a ${inicial[0].nombre}!`)
             if(comprobarMuerte(inicial[0].hp)){
                 hpInicial.innerText = 0
-                console.log(`${inicial[0].nombre} a sido debilitado`)
-                spriteInicial.style.transition = "ease 3s"
-                spriteInicial.style.opacity = 0
-                pelea.remove()
-                curar.remove()
-                textoBatalla.style.display = "flex"
-                textoBatalla.style.backgroundColor = "red"
-                mensaje.innerText = `${rival[0].nombre} vencio a ${inicial[0].nombre}`
-                textoBatalla.addEventListener("click", () =>{
-                    sectionBatalla.innerHTML = ""
-                    alert('Lastima , perdiste!')
-                })
+                finalBatalla(inicial[0].nombre, rival[0].nombre, 2)
             } else {
                 danio = calcularDanio(1, 1, random(85, 100), inicial[0].nivel, inicial[0].ataque, inicial[0].ataques.power, rival[0].defensa)
                 rival[0].hp -= danio
                 hpRival.innerText = rival[0].hp
-                console.log(`${rival[0].nombre} a sufrido ${danio} de daño`)
+                console.log(`${inicial[0].nombre} hizo un daño de ${danio} a ${rival[0].nombre}!`)
+                if(comprobarMuerte(rival[0].hp)){
+                    hpRival.innerText = 0
+                    finalBatalla(inicial[0].nombre, rival[0].nombre, 1)
+                }
             }
         }
     })
+    if (pocion == true) {
+        curarPokemon(inicial, hpInicial, rival)
+        pocion = false
+    }
 }
 
 function crearAtaqueHtml(ataque){
     let atacar = document.getElementById("atacar")
-    atacar.textContent = ataque.name
+    atacar.textContent = ataque.name.toUpperCase()
 }
 
 function obtenerLocalStorageAtaque(id){
@@ -465,7 +467,7 @@ function crearPokemonHtml(pokemon, num){
         let spriteRival = document.getElementById("spriteRival")
         spriteRival.setAttribute("src", pokemon.sprites.front_default)
         let nombreRival = document.getElementById(`nombre-${num}`)
-        nombreRival.textContent = pokemon.name
+        nombreRival.textContent = pokemon.name.toUpperCase()
         let hpRival = document.getElementById(`hp-${num}`)
         hpRival.textContent = obtenerHP(pokemon.stats[0].base_stat)
         let hpTotalRival = document.getElementById("hpTotalRival")
@@ -474,7 +476,7 @@ function crearPokemonHtml(pokemon, num){
         let spriteInicial = document.getElementById("spriteInicial")
         spriteInicial.setAttribute("src", pokemon.sprites.back_default)
         let nombreInicial = document.getElementById(`nombre-${num}`)
-        nombreInicial.textContent = pokemon.name
+        nombreInicial.textContent = pokemon.name.toUpperCase()
         let hpInicial = document.getElementById(`hp-${num}`)
         hpInicial.textContent = obtenerHP(pokemon.stats[0].base_stat)
         let hpTotalInicial = document.getElementById("hpTotalInicial")

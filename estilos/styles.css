@@ -121,6 +121,14 @@ table {
     transform: rotate(-1deg) translateX(-3%);
   }
 }
+@keyframes ataqueInicial {
+  0% {
+    transform: translateX(50px);
+  }
+  100% {
+    transform: translateX(-50px);
+  }
+}
 #titulo {
   display: flex;
   justify-content: center;
@@ -235,7 +243,6 @@ table {
 }
 
 #bulbasaur {
-  display: none;
   border-radius: 10%;
   padding: 1em;
   background-color: #8FEE57;
@@ -252,7 +259,6 @@ table {
 }
 
 #charmander {
-  display: none;
   border-radius: 10%;
   padding: 1em;
   background-color: #EEB827;
@@ -269,7 +275,6 @@ table {
 }
 
 #squirtle {
-  display: none;
   border-radius: 10%;
   padding: 1em;
   background-color: #1F33EE;
